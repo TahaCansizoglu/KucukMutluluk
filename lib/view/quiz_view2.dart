@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:englishPracticeApp/view/deneme.dart';
 import 'package:flutter/material.dart';
 import '../components/cards/quiz_card.dart';
 import '../components/buttons/button.dart';
@@ -38,6 +39,7 @@ class _QuizViewState extends State<QuizView> {
   @override
   void initState() {
     super.initState();
+    Deneme();
     WidgetsBinding.instance.addPostFrameCallback((_) => _startTimer());
   }
 
@@ -65,18 +67,24 @@ class _QuizViewState extends State<QuizView> {
                   style: TextStyle(fontSize: 24, color: Colors.white),
                 ),
               ),
-              QuizCard(),
+              QuizCard(
+                urlImage: "sdasd",
+              ),
               QuizButton(
                 txt: list[1],
+                answerTxt: list[5],
               ),
               QuizButton(
                 txt: list[2],
+                answerTxt: list[5],
               ),
               QuizButton(
                 txt: list[3],
+                answerTxt: list[5],
               ),
               QuizButton(
                 txt: list[4],
+                answerTxt: list[5],
               ),
             ],
           ),

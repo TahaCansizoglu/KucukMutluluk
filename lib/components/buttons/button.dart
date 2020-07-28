@@ -1,5 +1,6 @@
 import 'package:englishPracticeApp/components/style/color/colors.dart';
 import 'package:englishPracticeApp/components/style/text/text_style.dart';
+import 'package:englishPracticeApp/view/deneme.dart';
 import 'package:flutter/material.dart';
 
 import '../style/color/colors.dart';
@@ -86,13 +87,34 @@ class PlayButton extends StatelessWidget {
   }
 }
 
-class QuizButton extends StatelessWidget {
-  const QuizButton({
+class QuizButton extends StatefulWidget {
+  QuizButton({
     Key key,
     @required this.txt,
+    @required this.answerTxt,
   }) : super(key: key);
 
   final String txt;
+  final String answerTxt;
+
+  @override
+  _QuizButtonState createState() => _QuizButtonState();
+}
+
+class _QuizButtonState extends State<QuizButton> {
+  Color colortoshow = temaSariRenk;
+
+  Color right = Colors.green;
+
+  Color wrong = Colors.red;
+
+  void checkanswer() {
+    if (widget.answerTxt == widget.txt) {
+      colortoshow = right;
+    } else {
+      colortoshow = wrong;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,17 +122,27 @@ class QuizButton extends StatelessWidget {
       height: 50,
       width: 250,
       child: RaisedButton(
-        onPressed: () {},
+        onPressed: () {
+          checkanswer();
+          nextquestion();
+        },
         child: Text(
-          txt,
+          widget.txt,
           style: TextStyle(
               color: temaBeyazRenk, fontSize: 17, fontWeight: FontWeight.bold),
         ),
-        color: temaSariRenk,
+        color: colortoshow,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),
       ),
     );
+  }
+
+  void nextquestion() {
+    setState(() {
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) => Deneme()));
+    });
   }
 }
