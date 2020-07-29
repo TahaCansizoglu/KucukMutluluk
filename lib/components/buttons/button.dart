@@ -1,5 +1,6 @@
 import 'package:englishPracticeApp/components/style/color/colors.dart';
 import 'package:englishPracticeApp/components/style/text/text_style.dart';
+import 'package:englishPracticeApp/model/questions.dart';
 import 'package:englishPracticeApp/view/deneme.dart';
 import 'package:flutter/material.dart';
 
@@ -88,15 +89,14 @@ class PlayButton extends StatelessWidget {
 }
 
 class QuizButton extends StatefulWidget {
-  QuizButton({
-    Key key,
-    @required this.txt,
-    @required this.answerTxt,
-  }) : super(key: key);
+  QuizButton(
+      {Key key, @required this.txt, @required this.answerTxt, this.onPressed})
+      : super(key: key);
 
   final String txt;
   final String answerTxt;
-
+  List<Questions> dataes;
+  final Function(bool isOkey) onPressed;
   @override
   _QuizButtonState createState() => _QuizButtonState();
 }
@@ -107,12 +107,26 @@ class _QuizButtonState extends State<QuizButton> {
   Color right = Colors.green;
 
   Color wrong = Colors.red;
-
+  bool isOkey;
   void checkanswer() {
-    if (widget.answerTxt == widget.txt) {
-      colortoshow = right;
+    setState(() {
+      isOkey = widget.answerTxt == widget.txt;
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+
+    super.initState();
+    //isOkey = widget.answerTxt == widget.txt;
+  }
+
+  Color backgroundColor() {
+    if (isOkey == null) {
+      return temaSariRenk;
     } else {
-      colortoshow = wrong;
+      return widget.answerTxt == widget.txt ? right : wrong;
     }
   }
 
@@ -124,14 +138,17 @@ class _QuizButtonState extends State<QuizButton> {
       child: RaisedButton(
         onPressed: () {
           checkanswer();
-          nextquestion();
+          this.widget.onPressed(isOkey);
+          setState(() {
+            isOkey = null;
+          });
         },
         child: Text(
           widget.txt,
           style: TextStyle(
               color: temaBeyazRenk, fontSize: 17, fontWeight: FontWeight.bold),
         ),
-        color: colortoshow,
+        color: backgroundColor(),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
         ),

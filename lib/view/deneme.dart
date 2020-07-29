@@ -13,13 +13,14 @@ class Deneme extends StatefulWidget {
 
 class _DenemeState extends State<Deneme> {
   List<String> list = new List();
-
+  List<Questions> data = new List();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Questions>>(
         future: getPost(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
+            data = snapshot.data;
             var soru = snapshot.data.length;
             var rast = Random().nextInt(soru);
             list.add(snapshot.data[rast].englishTurkish.question.toString());
@@ -29,8 +30,11 @@ class _DenemeState extends State<Deneme> {
                   snapshot.data[rast].englishTurkish.answers[i].toString());
             }
             list.add(snapshot.data[rast].englishTurkish.trueAnswer);
-            print(list);
-            return QuizView(list: list);
+            // print(data.length);
+            return QuizView(
+              list: list,
+              data: data,
+            );
           } else
             return CircularProgressIndicator();
         });
