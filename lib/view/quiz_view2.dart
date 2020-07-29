@@ -51,30 +51,11 @@ class _QuizViewState extends State<QuizView> {
         index = random_array[j];
         j++;
       } else {
-        //Navigator.of(context).pushReplacement(MaterialPageRoute(
-        // builder: (context) => resultpage(marks: marks),
-        // ));
+        //navigation
       }
     });
   }
 
-  /* void _startTimer() {
-    _counter = 30;
-    if (_timer != null) {
-      _timer.cancel();
-    }
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        if (_counter > 0) {
-          _counter--;
-        } else {
-          _timer.cancel();
-          //NEXT QUESTION
-        }
-      });
-    });
-  }*/
-  void name() {}
   @override
   void initState() {
     super.initState();
@@ -108,7 +89,7 @@ class _QuizViewState extends State<QuizView> {
                   ),
                 ),
                 QuizCard(
-                  urlImage: "sdasd",
+                  urlImage: data[index].imageUrl,
                 ),
                 QuizButton(
                   txt: data[index].englishTurkish.answers[0].toString(),
@@ -127,10 +108,16 @@ class _QuizViewState extends State<QuizView> {
                 QuizButton(
                   txt: data[index].englishTurkish.answers[2].toString(),
                   answerTxt: data[index].englishTurkish.trueAnswer,
+                  onPressed: (isOkey) {
+                    nextquestion();
+                  },
                 ),
                 QuizButton(
                   txt: data[index].englishTurkish.answers[3].toString(),
                   answerTxt: data[index].englishTurkish.trueAnswer,
+                  onPressed: (isOkey) {
+                    nextquestion();
+                  },
                 ),
               ],
             ),

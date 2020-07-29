@@ -12,7 +12,7 @@ class QuizCard extends StatelessWidget {
       width: 250,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
-        child: Image.network(url),
+        child: Image.network(urlImage),
       ),
     );
   }

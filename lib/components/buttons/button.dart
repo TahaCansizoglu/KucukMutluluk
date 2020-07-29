@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:englishPracticeApp/components/style/color/colors.dart';
 import 'package:englishPracticeApp/components/style/text/text_style.dart';
 import 'package:englishPracticeApp/model/questions.dart';
@@ -88,6 +91,7 @@ class PlayButton extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class QuizButton extends StatefulWidget {
   QuizButton(
       {Key key, @required this.txt, @required this.answerTxt, this.onPressed})
@@ -122,7 +126,7 @@ class _QuizButtonState extends State<QuizButton> {
     //isOkey = widget.answerTxt == widget.txt;
   }
 
-  Color backgroundColor() {
+  Color get backgroundColor {
     if (isOkey == null) {
       return temaSariRenk;
     } else {
@@ -132,34 +136,33 @@ class _QuizButtonState extends State<QuizButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      width: 250,
-      child: RaisedButton(
-        onPressed: () {
-          checkanswer();
-          this.widget.onPressed(isOkey);
-          setState(() {
-            isOkey = null;
-          });
-        },
-        child: Text(
-          widget.txt,
-          style: TextStyle(
-              color: temaBeyazRenk, fontSize: 17, fontWeight: FontWeight.bold),
-        ),
-        color: backgroundColor(),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+    return RaisedButton(
+      color: Colors.transparent,
+      padding: EdgeInsets.zero,
+      onPressed: () async {
+        checkanswer();
+        await Future.delayed(Duration(seconds: 1));
+        this.widget.onPressed(isOkey);
+        setState(() {
+          isOkey = null;
+        });
+      },
+      child: AnimatedContainer(
+        height: MediaQuery.of(context).size.height * 0.08,
+        width: MediaQuery.of(context).size.width * 0.5,
+        duration: Duration(seconds: 1),
+        decoration: BoxDecoration(
+            color: backgroundColor, borderRadius: BorderRadius.circular(20)),
+        child: Center(
+          child: Text(
+            widget.txt,
+            style: TextStyle(
+                color: temaBeyazRenk,
+                fontSize: 17,
+                fontWeight: FontWeight.bold),
+          ),
         ),
       ),
     );
-  }
-
-  void nextquestion() {
-    setState(() {
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => Deneme()));
-    });
   }
 }
